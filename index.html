@@ -175,35 +175,32 @@
         }
 
         .photo-placeholder {
-    width: 170px;
-    height: 170px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #7e22ce 0%, #2a5298 100%);
-    margin: 0 auto 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3.5em;
-    color: white;
-    font-weight: bold;
-    border: 6px solid #fbbf24;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.photo-placeholder img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    object-position: center 30%; /* Foca mais na parte superior/rosto */
-}
-           
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7e22ce 0%, #2a5298 100%);
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5em;
+            color: white;
+            font-weight: bold;
+            border: 6px solid #fbbf24;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-       
+        .photo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            object-position: center 30%;
+        }
+           
         .team-member:hover .photo-placeholder {
             transform: rotate(360deg);
         }
@@ -300,18 +297,6 @@
         .proposal-card:hover {
             transform: translateX(10px);
             box-shadow: 0 15px 50px rgba(126, 34, 206, 0.2);
-        }
-
-        .proposal-card h3 {
-            font-size: 2em;
-            background: linear-gradient(135deg, #7e22ce 0%, #2a5298 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            font-weight: 700;
         }
 
         .proposal-card h3 {
@@ -484,8 +469,7 @@
             <div class="team-container">
                 <div class="team-member">
                     <div class="photo-placeholder">
-                        <img src=foto-silvio.jpg alt="Silvio"> -->
-                        S
+                        <img src="foto-silvio.jpg" alt="Silvio">
                     </div>
                     <h3>Sílvio</h3>
                     <p class="role">Síndico</p>
@@ -494,9 +478,8 @@
 
                 <div class="team-member">
                     <div class="photo-placeholder">
-                        <img src=foto-madson.jpg alt="Madson"> -->
-                        M
-                </div>
+                        <img src="foto-madson.jpg" alt="Madson">
+                    </div>
                     <h3>Madson</h3>
                     <p class="role">Subsíndico</p>
                     <p class="apartment">Apartamento 306</p>
@@ -504,8 +487,7 @@
 
                 <div class="team-member">
                     <div class="photo-placeholder">
-                        <img src=foto-luciana.jpg alt="Luciana"> -->
-                        L
+                        <img src="foto-luciana.jpg" alt="Luciana">
                     </div>
                     <h3>Luciana</h3>
                     <p class="role">Conselheira Fiscal</p>
@@ -514,7 +496,6 @@
 
                 <div class="team-member">
                     <div class="photo-placeholder">
-                        <!-- Para adicionar foto, use: <img src="caminho/para/foto-daniele.jpg" alt="Daniele"> -->
                         D
                     </div>
                     <h3>Daniella</h3>
@@ -524,7 +505,6 @@
 
                 <div class="team-member">
                     <div class="photo-placeholder">
-                        <!-- Para adicionar foto, use: <img src="caminho/para/foto-jose-carlos.jpg" alt="José Carlos"> -->
                         JC
                     </div>
                     <h3>José Carlos</h3>
@@ -686,11 +666,3 @@
     </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
