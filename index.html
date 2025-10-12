@@ -175,35 +175,35 @@
         }
 
         .photo-placeholder {
-            width: 170px;
-            height: 170px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #7e22ce 0%, #2a5298 100%);
-            margin: 0 auto 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5em;
-            color: white;
-            font-weight: bold;
-            border: 6px solid #fbbf24;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #7e22ce 0%, #2a5298 100%);
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5em;
+    color: white;
+    font-weight: bold;
+    border: 6px solid #fbbf24;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
 
-        .photo-placeholder img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
+.photo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    object-position: center 30%; /* Foca mais na parte superior/rosto */
+}
            
         }
 
-        .photo-silvio img {
-            object-position: 55% center;
-  }
+       
         .team-member:hover .photo-placeholder {
             transform: rotate(360deg);
         }
@@ -686,6 +686,7 @@
     </div>
 </body>
 </html>
+
 
 
 
