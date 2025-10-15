@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Eleição Ed. Bruno Perrelli - Chapa 2</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -370,6 +373,189 @@
             font-size: 1.1em;
         }
 
+        /* Estilos da Prestação de Contas */
+        .prestacao-wrapper {
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            padding: 100px 15px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #ffffff;
+            border-bottom: 3px solid #667eea;
+            color: #333;
+            padding: 20px 30px;
+            text-align: center;
+        }
+        
+        .header-info {
+            background: rgba(102, 126, 234, 0.08);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid #667eea;
+            font-size: 0.8em;
+            line-height: 1.4;
+        }
+        
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+            color: #667eea;
+        }
+        
+        .header p {
+            font-size: 0.9em;
+            color: #555;
+            margin: 3px 0;
+        }
+        
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px 30px;
+            background: #f8f9fa;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .summary-card h3 {
+            color: #666;
+            font-size: 0.7em;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        
+        .summary-card .value {
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+        
+        .summary-card.positive .value {
+            color: #10b981;
+        }
+        
+        .summary-card.negative .value {
+            color: #ef4444;
+        }
+        
+        .summary-card.neutral .value {
+            color: #667eea;
+        }
+        
+        .content {
+            padding: 20px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .section {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .section.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+            font-size: 1.1em;
+        }
+        
+        .chart-container {
+            height: 220px;
+            position: relative;
+        }
+        
+        .expense-list {
+            margin-top: 10px;
+        }
+        
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.85em;
+        }
+        
+        .expense-item:last-child {
+            border-bottom: none;
+        }
+        
+        .expense-name {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .expense-value {
+            font-weight: bold;
+            color: #ef4444;
+        }
+        
+        .expense-value.positive {
+            color: #10b981;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 12px 30px;
+            text-align: center;
+            color: #666;
+            font-size: 0.75em;
+            border-top: 2px solid #e5e7eb;
+        }
+        
+        .btn-pdf {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #667eea;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-size: 0.9em;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-pdf:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            background: #5568d3;
+        }
+
         @keyframes fadeInDown {
             from {
                 opacity: 0;
@@ -446,6 +632,31 @@
 
             .building-icon {
                 font-size: 3em;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .btn-pdf {
+                display: none !important;
+            }
+            
+            .container {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
             }
         }
     </style>
@@ -660,19 +871,399 @@
     </div>
 
     <div class="cta-section">
-          <p>Em 16 de outubro, próxima quinta-feira:</p>
+        <p>Em 16 de outubro, próxima quinta-feira:</p>
         <h2>Vote na Nossa Chapa!</h2>
         <p>Juntos faremos do Bruno Perrelli um condomínio ainda melhor.</p>
         <p><strong>Compromisso, Transparência e Dedicação!</strong></p>
     </div>
+
+    <!-- Seção de Prestação de Contas -->
+    <div class="prestacao-wrapper">
+        <div class="container" id="relatorio">
+            <div class="header">
+                <div class="header-info">
+                    ✨ <strong>!ATENÇÃO! Este é um exemplo de relatório que você vai receber da nova administração:</strong> Relatórios detalhados e de fácil entendimento para total transparência financeira.
+                </div>
+                <h1>📊 Prestação de Contas Mensal</h1>
+                <p><strong>Condomínio Edifício XXXXXXXXXX</strong> | Período: 01/08/2025 a 31/08/2025</p>
+            </div>
+            
+            <div class="summary">
+                <div class="summary-card neutral">
+                    <h3>Saldo Anterior</h3>
+                    <div class="value">R$ 68.824,70</div>
+                </div>
+                <div class="summary-card positive">
+                    <h3>Total Receitas</h3>
+                    <div class="value">R$ 72.217,99</div>
+                </div>
+                <div class="summary-card negative">
+                    <h3>Total Despesas</h3>
+                    <div class="value">R$ 48.572,28</div>
+                </div>
+                <div class="summary-card positive">
+                    <h3>Saldo Final</h3>
+                    <div class="value">R$ 92.470,41</div>
+                </div>
+            </div>
+            
+            <div class="content">
+                <div class="section">
+                    <h2>💰 Composição das Receitas</h2>
+                    <div class="chart-container">
+                        <canvas id="receitasChart"></canvas>
+                    </div>
+                    <div class="expense-list">
+                        <div class="expense-item">
+                            <span class="expense-name">Cotas do Mês</span>
+                            <span class="expense-value positive">R$ 58.875,00</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Taxa Extra</span>
+                            <span class="expense-value positive">R$ 19.297,75</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Juros/Multas</span>
+                            <span class="expense-value positive">R$ 573,24</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Acordos</span>
+                            <span class="expense-value positive">R$ 1.400,00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>💸 Principais Despesas</h2>
+                    <div class="chart-container">
+                        <canvas id="despesasChart"></canvas>
+                    </div>
+                    <div class="expense-list">
+                        <div class="expense-item">
+                            <span class="expense-name">Administração</span>
+                            <span class="expense-value">R$ 23.112,50</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Água (BRK)</span>
+                            <span class="expense-value">R$ 11.933,04</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Água Transport.</span>
+                            <span class="expense-value">R$ 3.500,00</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Gás (Algas)</span>
+                            <span class="expense-value">R$ 3.445,89</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Elevadores</span>
+                            <span class="expense-value">R$ 1.519,72</span>
+                        </div>
+                        <div class="expense-item">
+                            <span class="expense-name">Pessoal</span>
+                            <span class="expense-value">R$ 3.550,00</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📈 Resumo Financeiro</h2>
+                    <div class="chart-container">
+                        <canvas id="resumoChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <h2>📊 Distribuição de Gastos</h2>
+                    <div class="chart-container">
+                        <canvas id="distribuicaoChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer">
+                <strong>CNPJ:</strong> xx.xxx.xxx/xxxx-xx | <strong>Endereço:</strong> Rua xxxxxx, xx - xx - Maceió/AL | Relatório gerado em 14/10/2025
+            </div>
+        
+    
+    <script>
+        async function gerarPDF() {
+            const { jsPDF } = window.jspdf;
+            const btn = document.querySelector('.btn-pdf');
+            btn.style.display = 'none';
+            
+            try {
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const element = document.getElementById('relatorio');
+                
+                const canvas = await html2canvas(element, {
+                    scale: 2,
+                    useCORS: true,
+                    logging: false,
+                    windowWidth: 1400,
+                    windowHeight: element.scrollHeight
+                });
+                
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 210;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                
+                if (imgHeight > 297) {
+                    const ratio = 297 / imgHeight;
+                    const adjustedWidth = imgWidth * ratio;
+                    const adjustedHeight = 297;
+                    const xOffset = (210 - adjustedWidth) / 2;
+                    pdf.addImage(imgData, 'PNG', xOffset, 0, adjustedWidth, adjustedHeight);
+                } else {
+                    pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                }
+                
+                pdf.save('Prestacao_Contas_Condominio_Bruno_Perrelli.pdf');
+            } catch (error) {
+                alert('Erro ao gerar PDF. Por favor, tente novamente.');
+                console.error(error);
+            } finally {
+                btn.style.display = 'flex';
+            }
+        }
+        
+        function initCharts() {
+            if (typeof Chart === 'undefined') {
+                setTimeout(initCharts, 100);
+                return;
+            }
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            padding: 5,
+                            font: {
+                                size: 9
+                            },
+                            boxWidth: 12
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                label += 'R$ ' + context.parsed.toLocaleString('pt-BR', {minimumFractionDigits: 2});
+                                return label;
+                            }
+                        }
+                    }
+                }
+            };
+            
+            const resumoCtx = document.getElementById('resumoChart').getContext('2d');
+            new Chart(resumoCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Saldo Ant.', 'Receitas', 'Despesas', 'Saldo Final'],
+                    datasets: [{
+                        label: 'R$',
+                        data: [68824.70, 72217.99, 48572.28, 92470.41],
+                        backgroundColor: [
+                            'rgba(102, 126, 234, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(34, 197, 94, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(102, 126, 234, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(34, 197, 94, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                padding: 5,
+                                font: {
+                                    size: 9
+                                },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: { size: 9 },
+                                callback: function(value) {
+                                    return 'R$ ' + (value/1000).toFixed(0) + 'k';
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: { size: 9 }
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'barValues',
+                    afterDatasetsDraw: function(chart) {
+                        const ctx = chart.ctx;
+                        chart.data.datasets.forEach(function(dataset, i) {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach(function(bar, index) {
+                                const data = dataset.data[index];
+                                ctx.fillStyle = '#333';
+                                ctx.font = 'bold 10px Arial';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText('R$ ' + (data/1000).toFixed(1) + 'k', bar.x, bar.y - 3);
+                            });
+                        });
+                    }
+                }]
+            });
+            
+            const receitasCtx = document.getElementById('receitasChart').getContext('2d');
+            new Chart(receitasCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Cotas', 'Taxa Extra', 'Juros', 'Acordos'],
+                    datasets: [{
+                        data: [58875.00, 19297.75, 573.24, 1400.00],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(249, 115, 22, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: chartOptions
+            });
+            
+            const despesasCtx = document.getElementById('despesasChart').getContext('2d');
+            new Chart(despesasCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Admin', 'Água', 'Água T.', 'Gás', 'Elevad.', 'Pessoal'],
+                    datasets: [{
+                        label: 'R$',
+                        data: [23112.50, 11933.04, 3500.00, 3445.89, 1519.72, 3550.00],
+                        backgroundColor: 'rgba(239, 68, 68, 0.8)',
+                        borderColor: 'rgba(239, 68, 68, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                padding: 5,
+                                font: {
+                                    size: 9
+                                },
+                                boxWidth: 12
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                font: { size: 9 },
+                                callback: function(value) {
+                                    return 'R$ ' + (value/1000).toFixed(0) + 'k';
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: { size: 9 }
+                            }
+                        }
+                    }
+                }
+            });
+            
+            const distribuicaoCtx = document.getElementById('distribuicaoChart').getContext('2d');
+            new Chart(distribuicaoCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Admin', 'Água', 'Gás', 'Elevad.', 'Pessoal', 'Outros'],
+                    datasets: [{
+                        data: [23112.50, 15433.04, 3445.89, 1519.72, 3550.00, 1511.13],
+                        backgroundColor: [
+                            'rgba(239, 68, 68, 0.8)',
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(249, 115, 22, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(139, 92, 246, 0.8)',
+                            'rgba(156, 163, 175, 0.8)'
+                        ],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                padding: 5,
+                                font: {
+                                    size: 9
+                                },
+                                boxWidth: 12,
+                                generateLabels: function(chart) {
+                                    const data = chart.data;
+                                    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                                    return data.labels.map((label, i) => {
+                                        const value = data.datasets[0].data[i];
+                                        const percentage = ((value / total) * 100).toFixed(0);
+                                        return {
+                                            text: label + ': R$ ' + (value/1000).toFixed(1) + 'k (' + percentage + '%)',
+                                            fillStyle: data.datasets[0].backgroundColor[i],
+                                            hidden: false,
+                                            index: i
+                                        };
+                                    });
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initCharts);
+        } else {
+            initCharts();
+        }
+    </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
